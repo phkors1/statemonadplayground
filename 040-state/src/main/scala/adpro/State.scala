@@ -48,9 +48,19 @@ object RNG {
 
   // Exercise 3 (CB 6.3)
 
-  def intDouble (rng: RNG) = ???
+  def intDouble (rng: RNG) = 
+    {
+      val (x, rng1) = nonNegativeInt(rng)
+      val (y, rng2) = double(rng1)
+      ((x,y), rng2)
+    }
 
-  def doubleInt (rng: RNG) = ???
+  def doubleInt (rng: RNG) = 
+    {
+      val (x, rng1) = double(rng)
+      val (y, rng2) = nonNegativeInt(rng1)
+      ((x,y), rng2)
+    }
 
   def boolean (rng: RNG): (Boolean, RNG) =
     rng.nextInt match { case (i,rng2) => (i%2==0,rng2) }
