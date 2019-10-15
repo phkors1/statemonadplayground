@@ -131,9 +131,17 @@ object RNG {
 
   // Exercise 8 (6.8)
 
-  def flatMap[A,B](f: Rand[A])(g: A => Rand[B]): Rand[B] = ???
+  def flatMap[A,B](f: Rand[A])(g: A => Rand[B]): Rand[B] = 
+    rng => {
+      val (a, rng2) = f(rng)
+      g(a)(rng2)
+    }
 
-  def nonNegativeLessThan(n: Int): Rand[Int] = ???
+  def nonNegativeLessThan(n: Int): Rand[Int] = 
+  rng => {
+    val (i, rng1) = nonNegativeInt(rng)
+    ((i%n), rng1)
+  }
 
 }
 
