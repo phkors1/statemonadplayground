@@ -151,11 +151,24 @@ case class State[S, +A](run: S => (A, S)) {
 
   // Exercise 9 (6.10)
 
-  def map[B](f: A => B): State[S, B] = ???
+  def map[B](f: A => B): State[S, B] = 
+    State(s => {
+      val (a, s1) = this.run(s)
+      (f(a), s1)
+    })
 
-  def map2[B,C](sb: State[S, B])(f: (A, B) => C): State[S, C] = ???
+  def map2[B,C](sb: State[S, B])(f: (A, B) => C): State[S, C] =
+  State(s => {
+    val (a, s1) = this.run(s)
+    val (b, s2) = sb.run(s1)
+    (f(a, b), s2)
+  })
 
-  def flatMap[B](f: A => State[S, B]): State[S, B] = ???
+  def flatMap[B](f: A => State[S, B]): State[S, B] = 
+  State(s => {
+    val (a, s1) = this.run(s)
+    f(a).run(s1)
+  })
 
 }
 
@@ -167,7 +180,8 @@ object State {
 
   // Exercise 9 (6.10) continued
 
-  def sequence[S,A](sas: List[State[S, A]]): State[S, List[A]] = ???
+  def sequence[S,A](sas: List[State[S, A]]): State[S, List[A]] = 
+    sas.foldRight(unit[S, List[A]](Nil)) ((endList, accList) => endList.map2(accList)(_::_))
 
   // This is given in the book:
 
