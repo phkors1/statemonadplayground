@@ -124,9 +124,10 @@ object RNG {
 
   // Exercise 7 (6.7)
 
-  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = ???
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = 
+    fs.foldRight(unit(List(): List[A])) ((ra, rb) => map2(ra, rb) (_::_))
 
-  def _ints(count: Int): Rand[List[Int]] = ???
+  def _ints(count: Int): Rand[List[Int]] = sequence(List.fill(count)(int))
 
   // Exercise 8 (6.8)
 
