@@ -67,7 +67,18 @@ object RNG {
 
   // Exercise 4 (CB 6.4)
 
-  def ints(count: Int) (rng: RNG) = ???
+  def ints(count: Int) (rng: RNG) : (List[Int], RNG)= {
+    def generateInts(count:Int, rng:RNG, lst:List[Int]) : (List[Int], RNG) = {
+      if(count == 0)
+        (lst, rng)
+      else 
+        {
+          val (i, rng1) = rng.nextInt
+          generateInts(count-1, rng1, i::lst)
+        }
+    }
+    generateInts(count, rng, List.empty)
+  }
 
   // There is something terribly repetitive about passing the RNG along
   // every time. What could we do to eliminate some of this duplication
