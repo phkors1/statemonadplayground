@@ -34,7 +34,10 @@ object RNG {
 
   // Exercise 1 (CB 6.1)
 
-  def nonNegativeInt (rng: RNG): (Int, RNG) = ???
+  def nonNegativeInt (rng: RNG): (Int, RNG) ={
+    val (i, rng1) = rng.nextInt
+    ((i & 0x7FFFFFFF), rng1)
+  } 
 
   // Exercise 2 (CB 6.2)
 
